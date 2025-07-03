@@ -1,6 +1,6 @@
 import unittest
 
-from main import extract_markdown_images, extract_markdown_links
+from textnodes_tools import extract_markdown_images, extract_markdown_links
 
 
 class TestExtractEntities(unittest.TestCase):

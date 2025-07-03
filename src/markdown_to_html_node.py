@@ -1,6 +1,6 @@
 import re
 from textblocks import BlockType, block_to_block_type, markdown_to_blocks
-from main import text_to_textnodes, text_node_to_html_node
+from textnodes_tools import text_to_textnodes, text_node_to_html_node
 from parentnode import ParentNode
 from leafnode import LeafNode
 
@@ -36,25 +36,26 @@ def block_to_html_nodes(text):
 
 
 def strip_quote_marks(text):
-    lines = text.split('/n')
+    lines = text.split('\n')
     result = []
     for line in lines:
-        result.append(re.sub(r"^>", "", line))
+        result.append(re.sub(r"^>", "", line).strip())
+    return '\n'.join(result)
 
 
 def create_ulist(block):
-    lines = block.split('/n')
+    lines = block.split('\n')
     items = []
     for line in lines:
-        items.append(LeafNode("li", re.sub("^- ", "", line)))
+        items.append(ParentNode("li", block_to_html_nodes(re.sub("^- ", "", line))))
     return ParentNode("ul", items)
 
 
 def create_olist(block):
-    lines = block.split('/n')
+    lines = block.split('\n')
     items = []
     for line in lines:
-        items.append(LeafNode("li", re.sub("^\d+. ", "", line)))
+        items.append(ParentNode("li", block_to_html_nodes(re.sub("^\d+. ", "", line))))
     return ParentNode("ol", items)
 
 
@@ -62,4 +63,4 @@ def create_heading(text):
     level = 0
     while text[level] == '#':
         level += 1
-    return ParentNode(f"h{level}", text[level+1:])
+    return ParentNode(f"h{level}", block_to_html_nodes(text[level+1:]))
