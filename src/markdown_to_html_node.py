@@ -47,7 +47,7 @@ def create_ulist(block):
     lines = block.split('\n')
     items = []
     for line in lines:
-        items.append(ParentNode("li", block_to_html_nodes(re.sub("^- ", "", line))))
+        items.append(ParentNode("li", block_to_html_nodes(re.sub(r"^- ", "", line))))
     return ParentNode("ul", items)
 
 
@@ -55,7 +55,7 @@ def create_olist(block):
     lines = block.split('\n')
     items = []
     for line in lines:
-        items.append(ParentNode("li", block_to_html_nodes(re.sub("^\d+. ", "", line))))
+        items.append(ParentNode("li", block_to_html_nodes(re.sub(r"^\d+. ", "", line))))
     return ParentNode("ol", items)
 
 
