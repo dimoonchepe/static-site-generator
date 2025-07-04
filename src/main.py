@@ -6,7 +6,8 @@ from static_copy import recursive_copy_files
 from textnodes_tools import extract_title
 
 def main():
-    basepath = '/' if len(sys.argv) == 0 else sys.argv[0]
+    basepath = '/' if len(sys.argv) == 1 else sys.argv[1]
+    print('basepath: ', basepath)
     
     recursive_copy_files('static', 'docs')    
     generate_pages_recursive("content", "template.html", "docs", basepath)
